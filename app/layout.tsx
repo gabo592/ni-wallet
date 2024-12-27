@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { ReactNode } from 'react';
 import './globals.css';
 import { ThemeProvider } from '@/components/common/theme-provider';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           {children}
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
