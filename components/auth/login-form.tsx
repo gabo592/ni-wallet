@@ -15,6 +15,9 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { useState } from 'react';
+import { login } from '@/app/auth/actions';
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   email: z.string().email('Ingrese un correo electrónico válido.'),
@@ -22,6 +25,8 @@ const formSchema = z.object({
 });
 
 export const LoginForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,7 +36,16 @@ export const LoginForm = () => {
   });
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    const { email, password } = data;
+
+    const formData = new FormData();
+
+    formData.append('email', email);
+    formData.append('password', password);
+
+    setIsLoading(true);
+    await login(formData);
+    setIsLoading(false);
   }
 
   return (
@@ -71,8 +85,11 @@ export const LoginForm = () => {
         />
 
         <section className="flex flex-col w-full gap-4">
-          <Button type="submit">Iniciar Sesión</Button>
-          <Button type="button" asChild variant={'outline'}>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+            Iniciar Sesión
+          </Button>
+          <Button type="button" asChild variant={'outline'} disabled={isLoading}>
             <Link href={'/auth/register'}>Crear Cuenta</Link>
           </Button>
         </section>
