@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function RegisterPage() {
   return (
     <>
-      <header className="flex p-4 justify-between">
+      <header className="flex p-4 justify-between items-center">
         <ReturnButton />
         <h1 className="text-xl font-bold">Crear Cuenta</h1>
         <ModeToggle />

@@ -1,5 +1,6 @@
 'use server';
 
+import { type User } from '@/types/user';
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -42,4 +43,31 @@ export async function login(formData: FormData) {
 
   revalidatePath('/', 'layout');
   redirect('/');
+}
+
+export async function signOut() {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error(error);
+    redirect('/error');
+  }
+
+  revalidatePath('/', 'layout');
+  redirect('/auth/login');
+}
+
+export async function getUser(): Promise<User | null> {
+  const supabase = await createClient();
+
+  const { error, data } = await supabase.from('users').select().single();
+
+  if (error || !data) {
+    console.error(error);
+    return null;
+  }
+
+  return data;
 }

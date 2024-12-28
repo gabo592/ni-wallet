@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default function LoginPage() {
   return (
     <>
-      <header className="flex p-4 justify-between">
+      <header className="flex p-4 justify-between items-center">
         <div className="w-9 h-9"></div>
         <h1 className="text-xl font-bold">Inicar Sesión</h1>
         <ModeToggle />
