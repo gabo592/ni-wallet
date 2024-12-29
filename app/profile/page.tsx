@@ -13,8 +13,6 @@ export default async function ProfilePage() {
     redirect('/error');
   }
 
-  console.log(user);
-
   return (
     <>
       <AppHeader title="Perfil" />
