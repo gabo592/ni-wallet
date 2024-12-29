@@ -81,9 +81,14 @@ export async function updateUser(formData: FormData) {
   const image = formData.get('image') as File | null;
 
   if (image) {
-    const { data } = await uploadFile(image);
+    const { error, data } = await uploadFile(image);
 
-    payload.avatar_url = data?.signedUrl;
+    if (error || !data) {
+      console.error(error);
+      redirect('/error');
+    }
+
+    payload.avatar_url = data.signedUrl;
   }
 
   const supabase = await createClient();
