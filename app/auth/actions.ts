@@ -1,6 +1,6 @@
 'use server';
 
-import { type User } from '@/types/user';
+import { UpdateUserDto, type User } from '@/types/user';
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -70,4 +70,61 @@ export async function getUser(): Promise<User | null> {
   }
 
   return data;
+}
+
+export async function updateUser(formData: FormData) {
+  const payload: UpdateUserDto = {
+    first_name: formData.get('first_name') as string,
+    last_name: formData.get('last_name') as string,
+  };
+
+  const image = formData.get('image') as File | null;
+
+  if (image) {
+    const { error, data } = await uploadFile(image);
+
+    if (error || !data) {
+      console.error(error);
+      redirect('/error');
+    }
+
+    payload.avatar_url = data.signedUrl;
+  }
+
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from('users')
+    .update(payload)
+    .eq('id', formData.get('id') as string);
+
+  if (error) {
+    console.error(error);
+    redirect('/error');
+  }
+
+  revalidatePath('/', 'layout');
+  revalidatePath('/profile', 'layout');
+  redirect('/');
+}
+
+async function uploadFile(file: File) {
+  const supabase = await createClient();
+
+  const { error, data } = await supabase.auth.getUser();
+
+  if (error || !data) {
+    console.error(error);
+    redirect('/error');
+  }
+
+  await supabase.storage.from('ni-wallet').upload(`${data.user.id}/${file.name}`, file, {
+    upsert: true,
+  });
+
+  const expiresInOneYear = 60 * 60 * 24 * 365;
+
+  return supabase.storage
+    .from('ni-wallet')
+    .createSignedUrl(`${data.user.id}/${file.name}`, expiresInOneYear);
 }
