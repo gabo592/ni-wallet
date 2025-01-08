@@ -38,7 +38,7 @@ export const AvatarMenu = async () => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {AVATAR_MENU_ROUTES.map((route, index) => (
-            <DropdownMenuItem key={`item-${index}`}>
+            <DropdownMenuItem key={`item-${index}`} asChild>
               <Link href={route.path} className="flex items-center gap-2">
                 <route.icon className="w-4 h-4" />
                 {route.title}

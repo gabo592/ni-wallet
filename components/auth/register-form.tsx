@@ -15,10 +15,12 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { signUp } from '@/app/auth/actions';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
+  image: z.any(),
   first_name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres.'),
   last_name: z.string().min(2, 'El apellido debe tener al menos 2 caracteres.'),
   email: z.string().email('Ingrese un correo electrónico válido.'),
@@ -27,6 +29,7 @@ const formSchema = z.object({
 
 export const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [image, setImage] = useState<File | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,10 +42,16 @@ export const RegisterForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!image) {
+      alert('La imagen es requerida.');
+      return;
+    }
+
     const { first_name, last_name, email, password } = values;
 
     const formData = new FormData();
 
+    formData.append('image', image);
     formData.append('first_name', first_name);
     formData.append('last_name', last_name);
     formData.append('email', email);
@@ -50,14 +59,49 @@ export const RegisterForm = () => {
 
     setIsLoading(true);
 
+    setTimeout(
+      () => toast.info('Le enviaremos un correo electrónico para verificar su cuenta.'),
+      1000,
+    );
+
     await signUp(formData);
 
     setIsLoading(false);
   }
 
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    if (files) {
+      setImage(files[0]);
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Foto de Perfil</FormLabel>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  name={field.name}
+                  onBlur={field.onBlur}
+                  onChange={handleImageChange}
+                />
+              </FormControl>
+              <FormDescription>
+                Puede escoger una foto de perfil o un avatar, la decisión es suya.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="first_name"

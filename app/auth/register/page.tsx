@@ -3,6 +3,7 @@ import { ModeToggle } from '@/components/common/mode-toggle';
 import { ReturnButton } from '@/components/common/return-button';
 import Logo from '@/public/images/logo.png';
 import Image from 'next/image';
+import { Toaster } from 'sonner';
 
 export default function RegisterPage() {
   return (
@@ -16,6 +17,7 @@ export default function RegisterPage() {
         <Image src={Logo} alt="logo" className="h-28 w-auto" />
         <RegisterForm />
       </main>
+      <Toaster position="bottom-right" richColors />
     </>
   );
 }
