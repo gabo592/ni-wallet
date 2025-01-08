@@ -18,6 +18,7 @@ import { Button } from '../ui/button';
 import { User } from '@/types/user';
 import { Loader2 } from 'lucide-react';
 import { updateUser } from '@/app/auth/actions';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   image: z.any(),
@@ -28,9 +29,10 @@ const formSchema = z.object({
 
 interface EditProfileFormProps {
   user: User;
+  className?: string;
 }
 
-export const EditProfileForm: FC<EditProfileFormProps> = ({ user }) => {
+export const EditProfileForm: FC<EditProfileFormProps> = ({ user, className }) => {
   const [image, setImage] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -67,11 +69,16 @@ export const EditProfileForm: FC<EditProfileFormProps> = ({ user }) => {
     setIsLoading(true);
     await updateUser(formData);
     setIsLoading(false);
+
+    alert('Perfil actualizado');
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn('grid items-start gap-4', className)}
+      >
         <FormField
           control={form.control}
           name="image"
@@ -127,7 +134,7 @@ export const EditProfileForm: FC<EditProfileFormProps> = ({ user }) => {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading}>
           {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
           Guardar
         </Button>
