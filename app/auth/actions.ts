@@ -125,3 +125,35 @@ async function uploadAvatar(supabase: SupabaseClient, formData: FormData) {
 
   return supabase.storage.from('avatars').getPublicUrl(data.path);
 }
+
+export async function resetPasswordForEmail() {
+  const supabase = await createClient();
+
+  const { error: authError, data } = await supabase.auth.getUser();
+
+  if (authError || !data) {
+    console.error(authError);
+    redirect('/error');
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(data.user.email as string);
+
+  if (error) {
+    console.error(error);
+    redirect('/error');
+  }
+}
+
+export async function updatePassword(password: string) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.updateUser({ password });
+
+  if (error) {
+    console.error(error);
+    redirect('/error');
+  }
+
+  revalidatePath('/', 'layout');
+  redirect('/');
+}

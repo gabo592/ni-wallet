@@ -2,9 +2,10 @@ import { AppHeader } from '@/components/common/app-header';
 import { getUser } from '../auth/actions';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
-import { Lock, Trash2, User } from 'lucide-react';
+import { Trash2, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EditProfileDrawerDialog } from '@/components/profile/edit-profile-drawer-dialog';
+import { ChangePasswordAlertDialog } from '@/components/profile/change-password-alert-dialog';
 
 export default async function ProfilePage() {
   const user = await getUser();
@@ -37,10 +38,7 @@ export default async function ProfilePage() {
 
         <section className="flex flex-col lg:flex-row w-full max-w-md lg:max-w-xl gap-2 justify-between">
           <EditProfileDrawerDialog user={user} />
-          <Button variant={'outline'}>
-            <Lock className="w-4 h-4" />
-            Cambiar Contraseña
-          </Button>
+          <ChangePasswordAlertDialog />
           <Button variant={'destructive'}>
             <Trash2 className="w-4 h-4" />
             Eliminar Cuenta
