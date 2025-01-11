@@ -18,6 +18,7 @@ import { toast } from 'sonner';
 
 interface DeleteAlertDialogProps {
   id: string;
+  // eslint-disable-next-line no-unused-vars
   onConfirm: (id: string) => Promise<void>;
 }
 
