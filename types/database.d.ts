@@ -9,9 +9,75 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      accounts: {
+        Row: {
+          balance: number
+          created_at: string
+          currency_id: string
+          description: string | null
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          balance: number
+          created_at?: string
+          currency_id?: string
+          description?: string | null
+          id?: string
+          name: string
+          user_id?: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          currency_id?: string
+          description?: string | null
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accounts_currency_id_fkey"
+            columns: ["currency_id"]
+            isOneToOne: false
+            referencedRelation: "currencies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "accounts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      currencies: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       users: {
         Row: {
-          avatar_url: string | null
+          avatar_url: string
           created_at: string
           email: string
           first_name: string
@@ -19,7 +85,7 @@ export type Database = {
           last_name: string
         }
         Insert: {
-          avatar_url?: string | null
+          avatar_url: string
           created_at?: string
           email: string
           first_name: string
@@ -27,7 +93,7 @@ export type Database = {
           last_name: string
         }
         Update: {
-          avatar_url?: string | null
+          avatar_url?: string
           created_at?: string
           email?: string
           first_name?: string
