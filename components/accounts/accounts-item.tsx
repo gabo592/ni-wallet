@@ -7,6 +7,7 @@ import { formatCurrency } from '@/utils/common/format';
 import { Badge } from '../ui/badge';
 import { DeleteAlertDialog } from '../common/delete-alert-dialog';
 import { deleteAccount } from '@/app/accounts/actions';
+import Link from 'next/link';
 
 interface AccountsItemProps {
   account: Account;
@@ -30,9 +31,11 @@ export const AccountsItem: FC<AccountsItemProps> = ({ account }) => {
       </CardContent>
       <CardFooter className="flex items-center justify-between w-full">
         <DeleteAlertDialog id={account.id} onConfirm={deleteAccount} />
-        <Button variant={'secondary'}>
-          <Pencil className="h-4 w-4" />
-          Editar
+        <Button variant={'secondary'} asChild>
+          <Link href={`/accounts/${account.id}`}>
+            <Pencil className="h-4 w-4" />
+            Editar
+          </Link>
         </Button>
       </CardFooter>
     </Card>
