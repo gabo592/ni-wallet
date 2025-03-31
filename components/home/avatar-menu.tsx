@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import Link from 'next/link';
-import { Settings, UserRound } from 'lucide-react';
 import { LogoutButton } from '../common/logout-button';
 import { avatarMenuRoutes } from '@/constants/routes';
 
