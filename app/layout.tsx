@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/common/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -82,28 +83,28 @@ export const metadata: Metadata = {
       url: "/images/apple-icon-180x180.png",
     },
     {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '192x192',
-      url: '/images/favicon-192x192.png',
+      rel: "icon",
+      type: "image/png",
+      sizes: "192x192",
+      url: "/images/favicon-192x192.png",
     },
     {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '32x32',
-      url: '/images/favicon-32x32.png',
+      rel: "icon",
+      type: "image/png",
+      sizes: "32x32",
+      url: "/images/favicon-32x32.png",
     },
     {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '96x96',
-      url: '/images/favicon-96x96.png',
+      rel: "icon",
+      type: "image/png",
+      sizes: "96x96",
+      url: "/images/favicon-96x96.png",
     },
     {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '16x16',
-      url: '/images/favicon-16x16.png',
+      rel: "icon",
+      type: "image/png",
+      sizes: "16x16",
+      url: "/images/favicon-16x16.png",
     },
   ],
   manifest: "/docs/manifest.json",
@@ -115,11 +116,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
