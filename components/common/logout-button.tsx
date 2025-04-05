@@ -19,7 +19,7 @@ export function LogoutButton() {
       variant={'destructive'}
       onClick={handleClick}
       disabled={loading}
-      className="hover:cursor-pointer w-full"
+      className="w-full"
     >
       {loading ? <Loader2 className="animate-spin" /> : <LogOut />}
       Cerrar Sesión
