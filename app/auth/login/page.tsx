@@ -6,7 +6,7 @@ import Logo from '@/public/images/logo.png';
 
 export default function LoginPage() {
   return (
-    <>
+    <section className="w-full">
       <header className="flex flex-row p-4 items-center justify-between">
         <div className="w-9 h-9"></div>
         <h1 className="text-2xl font-bold">Iniciar Sesión</h1>
@@ -16,6 +16,6 @@ export default function LoginPage() {
         <Image src={Logo} alt="Logo" className="w-20 h-auto" />
         <LoginForm />
       </Container>
-    </>
+    </section>
   );
 }

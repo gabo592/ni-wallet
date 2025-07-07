@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 import { login } from './actions';
+import { useSidebar } from '@/shared/ui/sidebar';
 
 const fromSchema = z.object({
   email: z.string().email('El correo electrónico es requerido'),
@@ -13,6 +14,7 @@ type FormSchema = z.infer<typeof fromSchema>;
 
 export const useLoginForm = () => {
   const [isPending, startTransition] = useTransition();
+  const { setOpen } = useSidebar();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(fromSchema),
@@ -32,6 +34,10 @@ export const useLoginForm = () => {
       await login(formData);
     });
   }
+
+  useEffect(() => {
+    setOpen(false);
+  }, []);
 
   return {
     form,

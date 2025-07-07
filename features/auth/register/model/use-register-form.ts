@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTransition } from 'react';
+import { useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { register } from './actions';
 import { toast } from 'sonner';
+import { useSidebar } from '@/shared/ui/sidebar';
 
 const formSchema = z.object({
   firstName: z.string().min(3, 'El nombre debe tener al menos 3 caracteres'),
@@ -16,6 +17,7 @@ type FormSchema = z.infer<typeof formSchema>;
 
 export const useRegisterForm = () => {
   const [isPending, startTransition] = useTransition();
+  const { setOpen } = useSidebar();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -40,6 +42,10 @@ export const useRegisterForm = () => {
       await register(formData);
     });
   }
+
+  useEffect(() => {
+    setOpen(false);
+  }, []);
 
   return {
     form,

@@ -4,6 +4,8 @@ import './globals.css';
 import { ReactNode } from 'react';
 import { ThemeProvider } from '@/widgets/theme-provider/ui/theme-provider';
 import { Toaster } from '@/shared/ui/sonner';
+import { SidebarProvider } from '@/shared/ui/sidebar';
+import { AppSidebar } from '@/widgets/sidebar/ui/app-sidebar';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -118,7 +120,10 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <SidebarProvider>
+            <AppSidebar />
+            {children}
+          </SidebarProvider>
           <Toaster richColors />
         </ThemeProvider>
       </body>
