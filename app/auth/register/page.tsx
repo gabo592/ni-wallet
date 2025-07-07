@@ -7,7 +7,7 @@ import Logo from '@/public/images/logo.png';
 
 export default function RegisterPage() {
   return (
-    <>
+    <section className="w-full">
       <header className="flex flex-row items-center justify-between p-4">
         <ReturButton />
         <h1 className="text-2xl font-bold">Registrarse</h1>
@@ -17,6 +17,6 @@ export default function RegisterPage() {
         <Image src={Logo} alt="Logo" className="w-20 h-auto" />
         <RegisterForm />
       </Container>
-    </>
+    </section>
   );
 }
