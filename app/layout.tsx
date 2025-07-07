@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
 import { ThemeProvider } from '@/widgets/theme-provider/ui/theme-provider';
+import { Toaster } from '@/shared/ui/sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -118,6 +119,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           disableTransitionOnChange
         >
           {children}
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>
