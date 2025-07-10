@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useTransition } from 'react';
 import { login } from './actions';
 import { useSidebar } from '@/shared/ui/sidebar';
+import { toast } from 'sonner';
 
 const fromSchema = z.object({
   email: z.string().email('El correo electrónico es requerido'),
@@ -31,7 +32,13 @@ export const useLoginForm = () => {
     formData.append('password', values.password);
 
     startTransition(async () => {
-      await login(formData);
+      const result = await login(formData);
+
+      if (!result.isSuccess) {
+        toast.error('Error al iniciar sesión', {
+          description: result.error,
+        });
+      }
     });
   }
 

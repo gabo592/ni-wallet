@@ -39,7 +39,13 @@ export const useRegisterForm = () => {
 
     startTransition(async () => {
       toast.info('Se le enviará un correo electrónico de confirmación.');
-      await register(formData);
+      const result = await register(formData);
+
+      if (!result.isSuccess) {
+        toast.error('Error al registrarse', {
+          description: result.error,
+        });
+      }
     });
   }
 
