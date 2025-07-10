@@ -36,3 +36,37 @@ export async function getUser(): Promise<BaseResponse<AuthUser | undefined>> {
     isSuccess: true,
   };
 }
+
+export async function getSignedUrl(
+  fileName: string
+): Promise<BaseResponse<string>> {
+  const supabase = await createClient();
+
+  const { data: authUser, error: authError } = await supabase.auth.getUser();
+
+  if (authError) {
+    return {
+      data: '',
+      isSuccess: false,
+      error: authError.message,
+    };
+  }
+
+  const { data, error } = await supabase.storage
+    .from('nic-ahorro')
+    .createSignedUrl(`${authUser.user.id}/${fileName}`, 3600);
+
+  if (error) {
+    return {
+      data: '',
+      isSuccess: false,
+      error: error.message,
+    };
+  }
+
+  return {
+    data: data.signedUrl,
+    isSuccess: true,
+    error: '',
+  };
+}
