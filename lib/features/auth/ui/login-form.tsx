@@ -18,6 +18,7 @@ export function LoginForm() {
   return (
     <form
       id="login-form"
+      data-testid="login-form"
       onSubmit={form.handleSubmit(onSubmit)}
       className="w-full max-w-sm"
     >
