@@ -1,0 +1,18 @@
+import { ModeToggle } from '@/components/common/mode-toggle';
+import Logo from '@/public/images/logo.png';
+import Image from 'next/image';
+
+export default function LoginPage() {
+  return (
+    <>
+      <header className="flex items-center justify-between p-4">
+        <div className="w-9 h-9"></div>
+        <h1 className="text-2xl font-bold">Iniciar sesión</h1>
+        <ModeToggle />
+      </header>
+      <main className="w-full flex flex-col items-center p-4 gap-8">
+        <Image src={Logo} alt="Logo" width={100} height={100} />
+      </main>
+    </>
+  );
+}
