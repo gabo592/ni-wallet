@@ -1,4 +1,5 @@
 import { ModeToggle } from '@/components/common/mode-toggle';
+import { LoginForm } from '@/lib/features/auth/ui/login-form';
 import Logo from '@/public/images/logo.png';
 import Image from 'next/image';
 
@@ -12,6 +13,7 @@ export default function LoginPage() {
       </header>
       <main className="w-full flex flex-col items-center p-4 gap-8">
         <Image src={Logo} alt="Logo" width={100} height={100} />
+        <LoginForm />
       </main>
     </>
   );
