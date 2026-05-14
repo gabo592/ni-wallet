@@ -3,10 +3,13 @@ import { ModeToggle } from '@/components/common/mode-toggle';
 export default function HomePage() {
   return (
     <>
-      <header>
+      <header
+        data-testid="header"
+        className="flex items-center justify-between p-4"
+      >
         <ModeToggle />
       </header>
-      <main></main>
+      <main data-testid="main"></main>
     </>
   );
 }
