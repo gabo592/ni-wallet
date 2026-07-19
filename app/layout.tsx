@@ -1,10 +1,13 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import type {Metadata} from 'next';
+import {Geist, Geist_Mono, Inter} from 'next/font/google';
 import './globals.css';
-import { cn } from '@/lib/utils';
-import { ThemeProvider } from '@/components/common/theme-provider';
+import {cn} from '@/lib/utils';
+import {ThemeProvider} from '@/components/common/theme-provider';
+import {Analytics} from "@vercel/analytics/next";
+import {SpeedInsights} from "@vercel/speed-insights/next";
+import {Toaster} from "sonner";
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const inter = Inter({subsets: ['latin'], variable: '--font-sans'});
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -21,7 +24,7 @@ export const metadata: Metadata = {
   description:
     'Ni Wallet es una aplicación de billetera digital que permite a los usuarios gestionar sus finanzas personales de manera segura y eficiente.',
   applicationName: 'Ni Wallet',
-  authors: [{ name: 'Gabriel Aviles', url: 'https://github.com/gabo592' }],
+  authors: [{name: 'Gabriel Aviles', url: 'https://github.com/gabo592'}],
   generator: 'Next.js',
   keywords: [
     'billetera digital',
@@ -107,13 +110,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html
       lang="es"
+      suppressHydrationWarning
       className={cn(
         'h-full',
         'antialiased',
@@ -123,16 +127,19 @@ export default function RootLayout({
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
-      </body>
+    <body suppressHydrationWarning className="min-h-full flex flex-col">
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+      <Toaster richColors/>
+    </ThemeProvider>
+    </body>
+    <Analytics/>
+    <SpeedInsights/>
     </html>
   );
 }
